@@ -1,0 +1,52 @@
+This is a test repo allows you to test [[http://wiki.opscode.com/display/chef/Resources#Resources-RemoteDirectory][remote_directory]] resource.
+
+* Setup
+
+  #+BEGIN_SRC: sh
+cd /tmp
+git clone https://mhorbul@github.com/mhorbul/remote-directory-notification.git
+cd remote-directory-notification
+bundle install
+  #+END_SRC
+
+* Run
+
+  - Make sure you do not have target folder and flag file.
+  #+BEGIN_SRC: sh
+ls -al /tmp | grep foo
+  #+END_SRC
+
+  - Run chef-solo
+  #+BEGIN_SRC: sh
+chef-solo -c solo.rb
+  #+END_SRC
+
+  - Make sure target folder is created and flag file is in /tmp.
+  #+BEGIN_SRC: sh
+ls -al /tmp | grep foo
+  #+END_SRC
+
+  - Run chef-solo again
+  #+BEGIN_SRC: sh
+chef-solo -c solo.rb
+  #+END_SRC
+
+  - Flag file /tmp/foo.updated has been removed by recipe and never
+    created back by execute resource via notification because /tmp/foo
+    has not been changed.
+  #+BEGIN_SRC: sh
+ls -al /tmp/foo.updated
+  #+END_SRC
+
+
+  - Modify or remove file(s) in the /tmp/foo folder. And run chef-solo again.
+  #+BEGIN_SRC: sh
+echo 2 > /tmp/foo/1/1.txt
+chf-solo -c solo.rb
+  #+END_SRC
+
+  - Make sure target folder is upadted to the initial state and flag file is in /tmp.
+  #+BEGIN_SRC: sh
+cat /tmp/foo/1/1.txt
+ls -al /tmp/foo.updated
+  #+END_SRC
