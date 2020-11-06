@@ -91,7 +91,7 @@ GEM
     plist (3.3.0)
     proxifier (1.0.3)
     public_suffix (3.0.1)
-    rack (2.0.3)
+    rack (2.2.3)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
